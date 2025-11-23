@@ -143,13 +143,48 @@
     backface-visibility: hidden;
     will-change: background-image;
     transform: translateZ(0);
+    /* Принудительное аппаратное ускорение для лучшего качества */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
   
-  /* Для Retina дисплеев - улучшение качества */
+  /* Специальная оптимизация для iOS Safari */
+  @supports (-webkit-touch-callout: none) {
+    body {
+      /* На iOS отключаем background-attachment: fixed, так как он ухудшает качество */
+      background-attachment: scroll;
+      /* Используем псевдоэлемент для фона на iOS */
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      background-image: url('/images/telegram-cloud-photo-size-2-5266982038370193190-y.jpg');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      /* Высокое качество на iOS */
+      image-rendering: auto;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+    }
+  }
+  
+  /* Для Retina дисплеев (включая iPhone) - улучшение качества */
   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     body {
       image-rendering: -webkit-optimize-contrast;
-      image-rendering: crisp-edges;
+    }
+    @supports (-webkit-touch-callout: none) {
+      body::before {
+        image-rendering: -webkit-optimize-contrast;
+      }
     }
   }
 }
