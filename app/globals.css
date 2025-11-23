@@ -131,13 +131,26 @@
     /* Фоновое изображение применяется напрямую к body для всех устройств */
     background-image: url('/images/telegram-cloud-photo-size-2-5266982038370193190-y.jpg');
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center center;
     background-size: cover;
     background-attachment: fixed; /* Фон не скроллится - остается на месте */
-    image-rendering: -webkit-optimize-contrast;
+    /* Оптимизация качества изображения */
+    image-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Улучшение рендеринга для четкости */
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    will-change: background-image;
     transform: translateZ(0);
+  }
+  
+  /* Для Retina дисплеев - улучшение качества */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
   }
 }
 
