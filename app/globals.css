@@ -128,63 +128,45 @@
   }
   body {
     @apply text-foreground;
-    /* Фоновое изображение применяется напрямую к body для всех устройств */
+    position: relative;
+    /* Убираем фон с body, используем псевдоэлемент */
+    background: transparent;
+    /* Оптимизация качества изображения */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Фиксированный фон для всех устройств через псевдоэлемент */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    z-index: -2;
     background-image: url('/images/telegram-cloud-photo-size-2-5266982038370193190-y.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-    background-attachment: fixed; /* Фон не скроллится - остается на месте */
-    /* Оптимизация качества изображения */
+    background-attachment: fixed;
+    /* Оптимизация качества и производительности */
     image-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    /* Улучшение рендеринга для четкости */
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    will-change: background-image;
-    transform: translateZ(0);
-    /* Принудительное аппаратное ускорение для лучшего качества */
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
-  }
-  
-  /* Специальная оптимизация для iOS Safari */
-  @supports (-webkit-touch-callout: none) {
-    body {
-      /* На iOS отключаем background-attachment: fixed, так как он ухудшает качество */
-      background-attachment: scroll;
-      /* Используем псевдоэлемент для фона на iOS */
-      position: relative;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: -1;
-      background-image: url('/images/telegram-cloud-photo-size-2-5266982038370193190-y.jpg');
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
-      /* Высокое качество на iOS */
-      image-rendering: auto;
-      -webkit-transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
-      will-change: transform;
-    }
+    will-change: transform;
+    /* Принудительное создание слоя для GPU */
+    -webkit-perspective: 1000;
+    perspective: 1000;
   }
   
   /* Для Retina дисплеев (включая iPhone) - улучшение качества */
   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    body {
+    body::before {
       image-rendering: -webkit-optimize-contrast;
-    }
-    @supports (-webkit-touch-callout: none) {
-      body::before {
-        image-rendering: -webkit-optimize-contrast;
-      }
     }
   }
 }
