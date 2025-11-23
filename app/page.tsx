@@ -1296,6 +1296,22 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Футер */}
+        <footer className="w-full mt-16 md:mt-20 py-6 md:py-8 px-4 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <div className="bg-red-600 rounded-xl p-4 md:p-6">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <p className="text-white text-sm md:text-base text-center md:text-left" style={{ fontFamily: 'Inter, Helvetica, Arial, sans-serif' }}>
+                  © 2025 Мастер и Маргаритка. Все права защищены.
+                </p>
+                <p className="text-white text-sm md:text-base text-center md:text-right" style={{ fontFamily: 'Inter, Helvetica, Arial, sans-serif' }}>
+                  Яндекс Карты 2
+                </p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
