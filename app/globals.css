@@ -128,27 +128,32 @@
   }
   body {
     @apply text-foreground;
-    /* Фоновое изображение применяется напрямую к body для отображения с самого начала страницы */
-    background-image: url('/images/telegram-cloud-photo-size-2-5266982038370193190-y.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    background-size: auto; /* На мобильных - натуральный размер */
+    /* Фоновое изображение применяется напрямую к body для десктопа */
     image-rendering: -webkit-optimize-contrast;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     transform: translateZ(0);
   }
   
-  /* На десктопе - фон покрывает весь экран для красивого отображения */
+  /* На мобильных - фон на контейнере, на десктопе - на body */
+  @media (max-width: 767px) {
+    body {
+      background-image: none; /* На мобильных фон на контейнере */
+    }
+  }
+  
+  /* На десктопе - фон фиксированный на body для красивого отображения */
   @media (min-width: 768px) {
     html, body {
       height: 100%;
       min-height: 100vh;
     }
     body {
-      background-size: cover; /* Покрывает весь экран на десктопе */
+      background-image: url('/images/telegram-cloud-photo-size-2-5266982038370193190-y.jpg');
+      background-repeat: no-repeat;
       background-position: center center;
+      background-size: cover; /* Покрывает весь экран на десктопе */
+      background-attachment: fixed; /* Фиксированный фон только на десктопе */
     }
   }
 }

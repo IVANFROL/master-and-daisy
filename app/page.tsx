@@ -4,7 +4,14 @@ import { Phone, Rocket, MessageCircle, Clock, Camera } from "lucide-react"
 export default function Home() {
   return (
     <div 
-      className="min-h-screen relative"
+      className="min-h-screen relative md:bg-none"
+      style={{
+        backgroundImage: 'url(/images/telegram-cloud-photo-size-2-5266982038370193190-y.jpg)',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundAttachment: 'scroll',
+      }}
     >
       {/* Бегущая строка в самом верху */}
       <div className="fixed top-0 left-0 right-0 z-50 overflow-hidden">
