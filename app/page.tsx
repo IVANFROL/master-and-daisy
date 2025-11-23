@@ -443,7 +443,8 @@ export default function Home() {
           <div className="px-4 md:px-8 lg:px-12">
             <p className="text-base md:text-[16px] text-white leading-[1.5] font-normal text-left md:text-center" style={{ fontFamily: 'Inter, Helvetica, Arial, sans-serif' }}>
               Хотим поздравить:<br />
-              вы стали постоянным клиентом и <span className="bg-[#FFCD05] text-black px-1.5 py-0.5">получаете 10% скидку</span> на<br />
+              вы стали постоянным клиентом и<br />
+              <span className="bg-[#FFCD05] text-black px-1.5 py-0.5">получаете 10% скидку</span> на<br />
               готовые букеты цветов.
             </p>
           </div>
