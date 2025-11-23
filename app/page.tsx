@@ -974,7 +974,7 @@ export default function Home() {
           <div className="mb-6 px-4 md:px-8 lg:px-12">
             <h1 className="text-[20px] md:text-[40px] font-medium text-white leading-[1.2] text-left md:text-center" style={{ fontFamily: 'Inter, Helvetica, Arial, sans-serif' }}>
               Приветствую, дорогой<br />
-              посетитель, в <span className="bg-white text-black px-1.5 py-0.5">лучшем цветочном</span> салоне по мнению Яндекс Карт и 2ГИС, а также 1000 клиентов
+              посетитель, в <span className="bg-white text-black px-1.5 py-0.5">лучшем цветочном</span> салоне по мнению Яндекс Карт и 2ГИС, а также 1000 клиентов!
           </h1>
           </div>
           <div className="px-4 md:px-8 lg:px-12">
