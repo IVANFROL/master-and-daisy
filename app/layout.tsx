@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
 const inter = Inter({ 
@@ -14,20 +13,21 @@ export const metadata: Metadata = {
   title: "Мастер и Маргаритка - Цветы ручной работы в Рязани",
   description:
     "Создаём уникальные букеты и композиции с душой. Быстрая доставка, качественный сервис. Лучший магазин 2025 года по версии 2ГИС и Яндекс Карты.",
-  generator: "v0.app",
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
+        url: "/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
       },
       {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
+        url: "/favicon-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
       },
       {
-        url: "/icon.svg",
-        type: "image/svg+xml",
+        url: "/favicon.ico",
+        sizes: "any",
       },
     ],
     apple: "/apple-icon.png",
@@ -48,7 +48,6 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} font-sans antialiased`} style={{ fontFamily: 'Inter, Helvetica, Arial, sans-serif' }}>
         {children}
-        <Analytics />
       </body>
     </html>
   )
