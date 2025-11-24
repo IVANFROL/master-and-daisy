@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from "react"
 import Image from "next/image"
 import { Phone, Rocket, MessageCircle, Clock, Camera } from "lucide-react"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
@@ -931,12 +932,57 @@ const reviews = [
 ]
 
 export default function Home() {
+  const observerRef = useRef<IntersectionObserver | null>(null)
+  const elementsRef = useRef<Set<Element>>(new Set())
+
+  useEffect(() => {
+    // Создаем Intersection Observer для анимаций при скролле
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+            // Отключаем наблюдение после появления
+            observerRef.current?.unobserve(entry.target)
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    )
+
+    // Ждем, пока DOM полностью загрузится
+    const observeElements = () => {
+      const elements = document.querySelectorAll('.scroll-fade-in')
+      elements.forEach((el) => {
+        if (!elementsRef.current.has(el)) {
+          observerRef.current?.observe(el)
+          elementsRef.current.add(el)
+        }
+      })
+    }
+
+    // Наблюдаем сразу и после небольшой задержки (на случай, если элементы еще не отрендерены)
+    observeElements()
+    const timeoutId = setTimeout(observeElements, 100)
+
+    return () => {
+      clearTimeout(timeoutId)
+      elementsRef.current.forEach((el) => {
+        observerRef.current?.unobserve(el)
+      })
+      observerRef.current?.disconnect()
+    }
+  }, [])
+
   return (
     <div 
       className="min-h-screen relative"
     >
       {/* Бегущая строка в самом верху */}
-      <div className="fixed top-0 left-0 right-0 z-50 overflow-hidden">
+      <div className="fixed top-0 left-0 right-0 z-50 overflow-hidden bg-pink-500/90 backdrop-blur-sm">
         <div className="flex animate-marquee whitespace-nowrap">
           <span className="px-4 text-white font-medium text-sm md:text-base">
              • Работаем круглосуточно • Доставка в течение 30 минут • Фото букета перед отправкой • Лучший магазин 2025 года •
@@ -952,25 +998,29 @@ export default function Home() {
       
       <div className="container mx-auto py-8 md:py-12 lg:py-16 relative z-10 pt-12 md:pt-16">
         {/* Логотипы как на bazilike.ru */}
-        <div className="mb-12 md:mb-16 lg:mb-20 flex justify-center items-center gap-8 md:gap-12 lg:gap-16 flex-col px-4">
+        <div className="mb-12 md:mb-16 lg:mb-20 flex justify-center items-center gap-8 md:gap-12 lg:gap-16 flex-col px-4 scroll-fade-in">
+          <div className="award-block-shine relative">
             <Image
-            src="/images/48861301.png"
+              src="/images/48861301.png"
               alt="Мастер и Маргаритка"
-            width={600}
-            height={300}
-            className="object-contain w-96 h-auto sm:w-[448px] md:w-[512px] lg:w-[576px] xl:w-[640px]"
-          />
-            <Image
-            src="/images/48861205.png"
-              alt="Мастер и Маргаритка"
-            width={500}
-            height={240}
-            className="object-contain w-80 h-auto sm:w-96 md:w-[448px] lg:w-[512px]"
+              width={600}
+              height={300}
+              className="object-contain w-96 h-auto sm:w-[448px] md:w-[512px] lg:w-[576px] xl:w-[640px] relative z-0"
             />
           </div>
+          <div className="logo-glow relative">
+            <Image
+              src="/images/48861205.png"
+              alt="Мастер и Маргаритка"
+              width={500}
+              height={240}
+              className="object-contain w-80 h-auto sm:w-96 md:w-[448px] lg:w-[512px] relative z-0"
+            />
+          </div>
+        </div>
 
         {/* Приветственный текст - стиль как на bazilike.ru */}
-        <div className="w-full mb-8 md:mb-12">
+        <div className="w-full mb-8 md:mb-12 scroll-fade-in">
           <div className="mb-6 px-4 md:px-8 lg:px-12">
             <h1 className="text-[20px] md:text-[40px] font-medium text-white leading-[1.2] text-left md:text-center" style={{ fontFamily: 'Inter, Helvetica, Arial, sans-serif' }}>
               Приветствую, дорогой<br />
@@ -988,7 +1038,7 @@ export default function Home() {
         </div>
 
         {/* Информационный стенд */}
-        <div className="max-w-2xl mx-auto mb-12 md:mb-16 px-4">
+        <div className="max-w-2xl mx-auto mb-12 md:mb-16 px-4 scroll-fade-in">
           <div className="p-6 md:p-8">
             <h2 className="text-[32px] md:text-[40px] font-medium text-white mb-6 md:mb-8 text-center leading-[1.2]" style={{ fontFamily: 'Inter, Helvetica, Arial, sans-serif' }}>
               Как оформить заказ?
@@ -1110,7 +1160,7 @@ export default function Home() {
             </div>
 
         {/* Блок преимуществ - как на bazilike.ru */}
-        <div className="max-w-6xl mx-auto mb-12 md:mb-16 px-4">
+        <div className="max-w-6xl mx-auto mb-12 md:mb-16 px-4 scroll-fade-in">
           <div className="p-6 md:p-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {/* Быстрая доставка */}
@@ -1177,7 +1227,7 @@ export default function Home() {
         </div>
 
         {/* Галерея фотографий - "Фото счастливых клиентов" */}
-        <div className="max-w-6xl mx-auto mb-12 md:mb-16 px-4">
+        <div className="max-w-6xl mx-auto mb-12 md:mb-16 px-4 scroll-fade-in">
           <div className="p-6 md:p-8">
             <h2 className="text-[32px] md:text-[40px] font-medium text-white mb-6 md:mb-8 text-center leading-[1.2]" style={{ fontFamily: 'Inter, Helvetica, Arial, sans-serif' }}>
               Фото счастливых клиентов
@@ -1205,7 +1255,7 @@ export default function Home() {
             </div>
 
         {/* Отзывы - сохраняем как есть */}
-        <div className="max-w-4xl mx-auto mb-12 md:mb-16 px-4">
+        <div className="max-w-4xl mx-auto mb-12 md:mb-16 px-4 scroll-fade-in">
           <div className="p-6 md:p-8">
             <div className="text-center mb-6 md:mb-8">
               <h2 className="text-[32px] md:text-[40px] font-medium text-white mb-4 leading-[1.2]" style={{ fontFamily: 'Inter, Helvetica, Arial, sans-serif' }}>
